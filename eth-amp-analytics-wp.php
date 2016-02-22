@@ -75,7 +75,17 @@ class ETH_AMP_Analytics_WP {
 			add_filter( 'amp_component_scripts', array( $this, 'filter_amp_component_scripts' ) );
 			add_action( 'amp_post_template_footer', array( $this, 'action_amp_post_template_footer' ) );
 		}
+
+		unset( $ga_options );
+
+		// Admin UI
+		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
+
 	}
+
+	/**
+	 * TEMPLATING
+	 */
 
 	/**
 	 *
@@ -112,6 +122,15 @@ class ETH_AMP_Analytics_WP {
 		</amp-analytics>
 		<?php
 	}
+
+	/**
+	 * ADMIN UI
+	 */
+
+	/**
+	 *
+	 */
+	public function action_admin_init() {}
 }
 
 ETH_AMP_Analytics_WP::get_instance();
