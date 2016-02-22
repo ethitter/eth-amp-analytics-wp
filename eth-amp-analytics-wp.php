@@ -139,7 +139,7 @@ class ETH_AMP_Analytics_WP {
 	 *
 	 */
 	public function action_admin_init() {
-		register_setting( 'reading', $this->option_name, array( $this, 'sanitize_options' ) );
+		register_setting( 'reading', $this->plugin_option_name, array( $this, 'sanitize_options' ) );
 
 		add_settings_section( 'eth-amp-analytics-wp', __( 'Google Analytics for AMP', 'eth-amp-analytics-wp' ), '__return_false', 'reading' );
 		add_settings_field( 'eth-amp-analytics-wp-property-id', __( 'Property ID:', 'eth-amp-analytics-wp' ), array( $this, 'settings_field_property_id' ), 'reading', 'eth-amp-analytics-wp' );
@@ -150,7 +150,7 @@ class ETH_AMP_Analytics_WP {
 	 */
 	public function settings_field_property_id() {
 		?>
-		<input type="text" name="<?php echo esc_attr( $this->option_name ); ?>[property_id]" value="<?php echo esc_attr( $this->get_option( 'property_id' ) ); ?>" class="medium-text" />
+		<input type="text" name="<?php echo esc_attr( $this->plugin_option_name ); ?>[property_id]" value="<?php echo esc_attr( $this->get_option( 'property_id' ) ); ?>" class="medium-text" />
 
 		<p class="description"><?php printf( __( 'Google Analytics property ID, in the format %s.', 'eth-amp-analytics-wp' ), '<strong>UA-XXXXX-Y</strong>' ); ?></p>
 		<?php
