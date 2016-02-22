@@ -108,25 +108,23 @@ class ETH_AMP_Analytics_WP {
 	 *
 	 */
 	public function action_amp_post_template_footer( $amp_template ) {
-		$triggers = array(
-			'trackPageview' => array(
-				'on'      => 'visible',
-				'request' => 'pageview',
+		$output = array(
+			'vars'     => array(
+				'account' => $this->get_option( 'property_id' ),
+			),
+			'triggers' => array(
+				'trackPageview' => array(
+					'on'      => 'visible',
+					'request' => 'pageview',
+				),
 			),
 		);
 
-		$triggers = apply_filters( 'eth_amp_analytics_wp_ga_triggers', $triggers, $amp_template );
+		$output = apply_filters( 'eth_amp_analytics_wp_ga_settings_js', $output );
 
 		?>
 		<amp-analytics type="googleanalytics" id="analytics1">
-			<script type="application/json">
-				{
-					"vars": {
-						"account": "<?php echo esc_js( $this->options['property_id'] ); ?>"
-					},
-					"triggers": <?php wp_json_encode( $triggers ); ?>
-				}
-			</script>
+			<script type="application/json"><?php echo wp_json_encode( $output ); ?></script>
 		</amp-analytics>
 		<?php
 	}
