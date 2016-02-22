@@ -61,11 +61,18 @@ class ETH_AMP_Analytics_WP {
 	private $options = null;
 
 	/**
-	 * Register actions and filters
+	 * Defer plugin action loading until all plugins are loaded
 	 *
 	 * @return null
 	 */
 	private function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
+	}
+
+	/**
+	 * Register actions and filters
+	 */
+	public function action_plugins_loaded() {
 		if ( ! defined( 'AMP__FILE__' ) ) {
 			return;
 		}
