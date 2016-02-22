@@ -89,16 +89,10 @@ class ETH_AMP_Analytics_WP {
 	 * Conditionally load front-end hooks
 	 */
 	public function action_wp_loaded() {
-		$ga_options = get_option( $this->plugin_option_name );
-
-		if ( is_array( $ga_options ) ) {
-			$this->options = wp_parse_args( $ga_options, $this->plugin_option_defaults );
-
+		if ( ! empty( $this->get_option( 'property_id' ) ) ) {
 			add_filter( 'amp_component_scripts', array( $this, 'filter_amp_component_scripts' ) );
 			add_action( 'amp_post_template_footer', array( $this, 'action_amp_post_template_footer' ) );
 		}
-
-		unset( $ga_options );
 	}
 
 	/**
@@ -167,6 +161,35 @@ class ETH_AMP_Analytics_WP {
 	 */
 	public function sanitize_options( $options ) {
 		return $options;
+	}
+
+	/**
+	 * UTILITY FUNCTIONS
+	 */
+
+	/**
+	 *
+	 */
+	private function get_option( $name ) {
+		// Prepare options if this is the first request
+		if ( is_null( $this->options ) ) {
+			$ga_options = get_option( $this->plugin_option_name );
+
+			if ( is_array( $ga_options ) ) {
+				$this->options = wp_parse_args( $ga_options, $this->plugin_option_defaults );
+			} else {
+				return false;
+			}
+
+			unset( $ga_options );
+		}
+
+		// Does the key exist?
+		if ( isset( $this->options[ $name ] ) ) {
+			return $this->options[ $name ];
+		} else {
+			return false;
+		}
 	}
 }
 
