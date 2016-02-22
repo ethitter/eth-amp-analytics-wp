@@ -40,12 +40,77 @@ class ETH_AMP_Analytics_WP {
 	}
 
 	/**
+	 * Class properties
+	 */
+	private $plugin_option_name = 'eth_amp_analytics_wp';
+	private $plugin_option_defaults = array(
+		'property_id' => null,
+	);
+
+	private $options = null;
+
+	/**
 	 * Register actions and filters
 	 *
 	 * @return null
 	 */
 	private function __construct() {
-		//
+		if ( ! defined( 'AMP__FILE__' ) ) {
+			return;
+		}
+
+		add_action( 'wp_loaded', array( $this, 'action_wp_loaded' ) );
+	}
+
+	/**
+	 *
+	 */
+	public function action_wp_loaded() {
+		// Front-end
+		$ga_options = get_option( $this->plugin_option_name );
+
+		if ( is_array( $ga_options ) ) {
+			$this->options = wp_parse_args( $ga_options, $this->plugin_option_defaults );
+
+			add_filter( 'amp_component_scripts', array( $this, 'filter_amp_component_scripts' ) );
+			add_action( 'amp_post_template_footer', array( $this, 'action_amp_post_template_footer' ) );
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function filter_amp_component_scripts( $scripts ) {
+		$scripts['amp-analytics'] = 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js';
+
+		return $scripts;
+	}
+
+	/**
+	 *
+	 */
+	public function action_amp_post_template_footer( $amp_template ) {
+		$triggers = array(
+			'trackPageview' => array(
+				'on'      => 'visible',
+				'request' => 'pageview',
+			),
+		);
+
+		$triggers = apply_filters( 'eth_amp_analytics_wp_ga_triggers', $triggers, $amp_template );
+
+		?>
+		<amp-analytics type="googleanalytics" id="analytics1">
+			<script type="application/json">
+				{
+					"vars": {
+						"account": "<?php echo esc_js( $this->options['property_id'] ); ?>"
+					},
+					"triggers": <?php wp_json_encode( $triggers ); ?>
+				}
+			</script>
+		</amp-analytics>
+		<?php
 	}
 }
 
