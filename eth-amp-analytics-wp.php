@@ -153,7 +153,11 @@ class ETH_AMP_Analytics_WP {
 	 *
 	 */
 	public function settings_field_property_id() {
-		?><?php
+		?>
+		<input type="text" name="<?php echo esc_attr( $this->option_name ); ?>[property_id]" value="<?php echo esc_attr( $this->get_option( 'property_id' ) ); ?>" class="medium-text" />
+
+		<p class="description"><?php printf( __( 'Google Analytics property ID, in the format %s.', 'eth-amp-analytics-wp' ), '<strong>UA-XXXXX-Y</strong>' ); ?></p>
+		<?php
 	}
 
 	/**
