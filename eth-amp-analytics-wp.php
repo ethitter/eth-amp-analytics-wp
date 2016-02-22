@@ -160,7 +160,25 @@ class ETH_AMP_Analytics_WP {
 	 *
 	 */
 	public function sanitize_options( $options ) {
-		return $options;
+		$sanitized_options = $this->plugin_option_defaults;
+
+		foreach ( $options as $key => $value ) {
+			switch( $key ) {
+				case 'property_id' :
+					$value = trim( $value );
+
+					if ( preg_match( '#^UA-([\d]+)-([\d]+)$#i', $value ) ) {
+						$sanitized_options[ $key ] = $value;
+					}
+					break;
+
+				default :
+					// Do nothing, this is unexpected. :)
+					break;
+			}
+		}
+
+		return $sanitized_options;
 	}
 
 	/**
