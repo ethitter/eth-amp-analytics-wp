@@ -24,6 +24,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 class ETH_AMP_Analytics_WP {
 	/**
+	 * PLUGIN SETUP
+	 */
+
+	/**
 	 * Singleton
 	 */
 	private static $instance = null;
@@ -75,7 +79,7 @@ class ETH_AMP_Analytics_WP {
 	}
 
 	/**
-	 *
+	 * Clean up plugin data when it's removed
 	 */
 	public static function uninstall() {
 		delete_option( 'eth_amp_analytics_wp' );
@@ -96,15 +100,16 @@ class ETH_AMP_Analytics_WP {
 	 */
 
 	/**
+	 * Add component script to header
 	 *
+	 * Must appear before AMP JS library, per https://developers.google.com/analytics/devguides/collection/amp-analytics/
 	 */
 	public function action_amp_post_template_head( $scripts ) {
-		?><script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
-<?php
+		?><script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script><?php
 	}
 
 	/**
-	 *
+	 * Add GA settings to post body
 	 */
 	public function action_amp_post_template_footer( $amp_template ) {
 		$output = array(
@@ -133,7 +138,7 @@ class ETH_AMP_Analytics_WP {
 	 */
 
 	/**
-	 *
+	 * Register admin additions
 	 */
 	public function action_admin_init() {
 		register_setting( 'reading', $this->plugin_option_name, array( $this, 'sanitize_options' ) );
@@ -143,7 +148,7 @@ class ETH_AMP_Analytics_WP {
 	}
 
 	/**
-	 *
+	 * Render Property ID input field
 	 */
 	public function settings_field_property_id() {
 		?>
@@ -156,7 +161,7 @@ class ETH_AMP_Analytics_WP {
 	}
 
 	/**
-	 *
+	 * Sanitize options
 	 */
 	public function sanitize_options( $options ) {
 		$sanitized_options = $this->plugin_option_defaults;
@@ -185,7 +190,7 @@ class ETH_AMP_Analytics_WP {
 	 */
 
 	/**
-	 *
+	 * Retrieve one of the plugin's options
 	 */
 	private function get_option( $name ) {
 		// Prepare options if this is the first request
