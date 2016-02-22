@@ -70,14 +70,25 @@ class ETH_AMP_Analytics_WP {
 			return;
 		}
 
+		// Front-end
 		add_action( 'wp_loaded', array( $this, 'action_wp_loaded' ) );
+
+		// Admin UI
+		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
+		register_uninstall_hook( __FILE__, array( 'ETH_AMP_Analytics_WP', 'uninstall' ) );
 	}
 
 	/**
 	 *
 	 */
+	public static function uninstall() {
+		delete_option( 'eth_amp_analytics_wp' );
+	}
+
+	/**
+	 * Conditionally load front-end hooks
+	 */
 	public function action_wp_loaded() {
-		// Front-end
 		$ga_options = get_option( $this->plugin_option_name );
 
 		if ( is_array( $ga_options ) ) {
@@ -88,10 +99,6 @@ class ETH_AMP_Analytics_WP {
 		}
 
 		unset( $ga_options );
-
-		// Admin UI
-		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
-
 	}
 
 	/**
