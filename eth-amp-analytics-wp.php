@@ -44,10 +44,6 @@ class ETH_AMP_Analytics_WP {
 	 */
 	public function __clone() {_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
 	public function __wakeup() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
-	public function __isset( $key ) { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
-	public function __get( $key ) { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
-	public function __set( $key, $value ) { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
-	public function __unset( $key ) { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'eth-amp-analytics-wp' ), '0.1' ); }
 	public function __call( $name = '', $args = array() ) { unset( $name, $args ); return null; }
 
 	/**
