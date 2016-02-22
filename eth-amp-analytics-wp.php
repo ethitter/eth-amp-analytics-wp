@@ -86,7 +86,7 @@ class ETH_AMP_Analytics_WP {
 	 */
 	public function action_wp_loaded() {
 		if ( ! empty( $this->get_option( 'property_id' ) ) ) {
-			add_filter( 'amp_component_scripts', array( $this, 'filter_amp_component_scripts' ) );
+			add_action( 'amp_post_template_head', array( $this, 'action_amp_post_template_head' ), 5 ); // Must appear before the AMP JS library
 			add_action( 'amp_post_template_footer', array( $this, 'action_amp_post_template_footer' ) );
 		}
 	}
@@ -98,10 +98,9 @@ class ETH_AMP_Analytics_WP {
 	/**
 	 *
 	 */
-	public function filter_amp_component_scripts( $scripts ) {
-		$scripts['amp-analytics'] = 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js';
-
-		return $scripts;
+	public function action_amp_post_template_head( $scripts ) {
+		?><script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+<?php
 	}
 
 	/**
