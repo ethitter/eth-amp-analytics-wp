@@ -153,6 +153,8 @@ class ETH_AMP_Analytics_WP {
 		<input type="text" name="<?php echo esc_attr( $this->plugin_option_name ); ?>[property_id]" value="<?php echo esc_attr( $this->get_option( 'property_id' ) ); ?>" class="medium-text" />
 
 		<p class="description"><?php printf( __( 'Google Analytics property ID, in the format %s.', 'eth-amp-analytics-wp' ), '<strong>UA-XXXXX-Y</strong>' ); ?></p>
+
+		<p class="description"><?php printf( __( 'Google recommends using a property ID specific to AMP, rather than re-using the site&#8217;s existing ID. See %s.', 'eth-amp-analytics-wp' ), '<a href="https://developers.google.com/analytics/devguides/collection/amp-analytics/" target="_blank">https://developers.google.com/analytics/devguides/collection/amp-analytics/</a>' ); ?></p>
 		<?php
 	}
 
