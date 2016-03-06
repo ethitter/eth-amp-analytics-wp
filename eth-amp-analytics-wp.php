@@ -97,8 +97,7 @@ class ETH_AMP_Analytics_WP {
 	 */
 	public function action_wp_loaded() {
 		if ( ! empty( $this->get_option( 'property_id' ) ) ) {
-			add_filter( 'amp_post_template_data', array( $this, 'filter_amp_post_template_data' ) );
-			add_action( 'amp_post_template_footer', array( $this, 'action_amp_post_template_footer' ) );
+			add_filter( 'amp_post_template_analytics', array( $this, 'filter_amp_post_template_analytics' ) );
 		}
 	}
 
@@ -107,41 +106,32 @@ class ETH_AMP_Analytics_WP {
 	 */
 
 	/**
-	 * Include component script
-	 *
-	 * Must appear before AMP JS library, per https://developers.google.com/analytics/devguides/collection/amp-analytics/
+	 * Set analytics properties
 	 */
-	public function filter_amp_post_template_data( $data ) {
-		if ( ! isset( $data['amp_component_scripts']['amp-analytics'] ) ) {
-			$data['amp_component_scripts']['amp-analytics'] = 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js';
+	public function filter_amp_post_template_analytics( $analytics ) {
+		if ( ! is_array( $analytics ) ) {
+			$analytics = array();
 		}
-
-		return $data;
-	}
-
-	/**
-	 * Add GA settings to post body
-	 */
-	public function action_amp_post_template_footer( $amp_template ) {
-		$output = array(
-			'vars'     => array(
-				'account' => $this->get_option( 'property_id' ),
+		
+		$analytics['eth-amp-googleanalytics'] = array(
+			'type' => 'googleanalytics',
+			'attributes' => array(
+				// 'data-credentials' => 'include',
 			),
-			'triggers' => array(
-				'trackPageview' => array(
-					'on'      => 'visible',
-					'request' => 'pageview',
+			'config_data' => array(
+				'vars' => array(
+					'account' => $this->get_option( 'property_id' ),
+				),
+				'triggers' => array(
+					'trackPageview' => array(
+						'on' => 'visible',
+						'request' => 'pageview',
+					),
 				),
 			),
 		);
 
-		$output = apply_filters( 'eth_amp_analytics_wp_ga_settings_js', $output );
-
-		?>
-		<amp-analytics type="googleanalytics" id="analytics1">
-			<script type="application/json"><?php echo wp_json_encode( $output ); ?></script>
-		</amp-analytics>
-		<?php
+		return $analytics;
 	}
 
 	/**
