@@ -4,7 +4,7 @@ Plugin Name: Google Analytics for AMP
 Plugin URI: https://ethitter.com/plugins/
 Description: Enable Google Analytics support for Automattic's AMP plugin
 Author: Erick Hitter
-Version: 0.1
+Version: 0.2
 Author URI: https://ethitter.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -112,7 +112,7 @@ class ETH_AMP_Analytics_WP {
 		if ( ! is_array( $analytics ) ) {
 			$analytics = array();
 		}
-		
+
 		$analytics['eth-amp-googleanalytics'] = array(
 			'type' => 'googleanalytics',
 			'attributes' => array(
